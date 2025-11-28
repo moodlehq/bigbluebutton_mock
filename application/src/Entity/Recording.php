@@ -275,8 +275,6 @@ class Recording
     public function getMetadata(): ?array
     {
         $metadata = array_merge($this->metadata, []);
-        $metadata['isBreakout'] = $this->stringifyBool(!empty($metadata['isBreakout']));
-
         return $metadata;
     }
 
