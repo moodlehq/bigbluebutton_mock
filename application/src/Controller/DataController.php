@@ -105,7 +105,7 @@ abstract class DataController extends AbstractController
             'bbb-recording-tags' => '',
             'bn-recording-ready-url' => 'http://example.com/broker',
             'bn-presenter-name' => 'Kevin Presenter',
-            'isBreakout' => false,
+            'isBreakout' => !empty($request->query->get('isBreakout')) ? 'true' : 'false',
         ]);
 
         $metadata = $this->getNamedMetadataFromRequest($request, $items, $fillDefaults);
