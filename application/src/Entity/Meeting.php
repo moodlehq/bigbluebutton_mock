@@ -240,7 +240,7 @@ class Meeting
         $meetingInfo = (object) [
             'meetingName' => $this->meetingName,
             'meetingID' => $this->meetingID,
-            //'internalMeetingID' => $this->internalMeetingID,
+            'internalMeetingID' => sha1($this->meetingID),
             //'parentMeetingID' => $this->parentMeetingID,
             'createTime' => $this->createTime->format('U'),
             'createDate' => $this->createTime->format('D M d H:i:s e Y'),
@@ -283,9 +283,10 @@ class Meeting
         return $meetingInfo;
     }
 
-    public function getMeetingSummary(): stdClass {
+    public function getMeetingSummary(bool $isDuplicate = false): stdClass {
         return (object) [
             'meetingID' => $this->meetingID,
+            'internalMeetingID' => sha1($this->meetingID),
             'attendeePW' => $this->attendeePW,
             'moderatorPW' => $this->moderatorPW,
             'createDate' => $this->createTime->format('D M d H:i:s e Y'),
@@ -294,6 +295,10 @@ class Meeting
             'voiceBridge' => sprintf("%04d", $this->voiceBridge),
             'hasBeenForciblyEnded' => $this->stringifyBool($this->hasBeenForciblyEnded),
             'hasUserJoined' => $this->stringifyBool($this->hasUserJoined),
+            'messageKey' => $isDuplicate ? 'duplicateWarning' : '',
+            'message' => $isDuplicate
+                ? 'This conference was already in existence and may currently be in progress.'
+                : '',
         ];
     }
 
